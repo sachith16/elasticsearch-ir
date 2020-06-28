@@ -11,13 +11,13 @@ syn_lyricist = ['ලියූ','ලියන්නා','ලියන','රචි
 syn_music = ['සංගීත']
 syn_adj = ['කල','කෙරූ','කර','ලද','කරන','සින්දු','ගීත','ගී','සැපයූ','හොඳම','ජනප්‍රිය','සුපිරිම','සුපිරි','ප්‍රචලිත','ප්‍රසිද්ධ','හොදම','ජනප්‍රියම']
 
-q = queries.multi_match_cross_fields("Sunil", ['artist_english'])
-res = client.search(index=INDEX, body=q)
-hits = res['hits']['hits']
-num_results = len(hits)
-y = json.dumps(hits[0])
-z=json.loads(y)
-print (z["_source"]["title"])
+#q = queries.multi_match_cross_fields("Sunil", ['artist_english'])
+#res = client.search(index=INDEX, body=q)
+#hits = res['hits']['hits']
+#num_results = len(hits)
+#y = json.dumps(hits[0])
+#z=json.loads(y)
+#print (z["_source"]["title"])
 
 query="Sunil ගායනා කල සුපිරි සින්දු 10"
 

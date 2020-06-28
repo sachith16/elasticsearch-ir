@@ -1,9 +1,6 @@
 def multi_match_cross_fields(query, fields):
 	print('multi_match_cross_fields')
 	q = {
-		"sort": [
-			{"views": {"order": "desc"}},
-		],
 		"query": {
 			"multi_match": {
 				"query": query,
@@ -18,9 +15,6 @@ def multi_match_cross_fields(query, fields):
 def multi_match_phrase_prefix(query, fields):
 	print('multi_match_phrase_prefix')
 	q = {
-		"sort": [
-			{"views": {"order": "desc"}},
-		],
 		"query": {
 			"multi_match": {
 				"query": query,

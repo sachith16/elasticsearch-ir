@@ -5,10 +5,11 @@ from search import searchq
 import json,re
 
 root = tk.Tk()
-hits=0;
 
+label_search = tk.Label(text="Enter query here")
+label_search.pack(pady=(15,0))
 entry = tk.Entry(fg="black", bg="white", width=100)
-entry.pack(padx=20, pady=10)
+entry.pack(padx=20, pady=(0,10))
 
 def search():
     #print(entry.get())
@@ -16,6 +17,7 @@ def search():
     listbox.delete(0,'end')
     T.delete('1.0', END)
     res=searchq(entry.get())
+    global hits
     hits = res['hits']['hits']
     for i in range(len(hits)):
         y = json.dumps(hits[i])
@@ -28,7 +30,7 @@ def search():
         else:
             item=item+" "+z["_source"]["artist"]
             
-        listbox.insert(END, item)
+        listbox.insert(END, item)    
 
 def OnDouble(event):
         T.config(state=NORMAL)
@@ -36,8 +38,7 @@ def OnDouble(event):
         selection=widget.curselection()
         value = widget.get(selection[0])
         #print (selection[0])
-        res=searchq(entry.get())
-        hits = res['hits']['hits']
+        global hits
         y = json.dumps(hits[selection[0]])
         z=json.loads(y)
         T.delete('1.0', END)
@@ -52,7 +53,7 @@ searchbutton = tk.Button(
     text="Search",
     width=5,
     height=1,
-    bg="grey",
+    bg="#D8D8D8",
     fg="black",
     command=search
 )
