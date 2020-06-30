@@ -8,6 +8,26 @@ def multi_match_cross_fields(query, fields):
 				"operator": 'or',
 				"type": "cross_fields"
 			}
+		},
+                "aggs": {			
+			"Music": {
+				"terms": {
+					"field": "music.keyword",
+					"size": 10
+				}
+			},
+			"Artist": {
+				"terms": {
+					"field": "artist.keyword",
+					"size": 10
+				}
+			},
+			"Lyricist": {
+				"terms": {
+					"field": "lyricist.keyword",
+					"size": 10
+				}
+			}
 		}
 	}
 	return q
@@ -21,6 +41,26 @@ def multi_match_phrase_prefix(query, fields):
 				"fields": fields,
 				"operator": 'or',
 				"type": "phrase_prefix"
+			}
+		},
+                "aggs": {			
+			"Music": {
+				"terms": {
+					"field": "music.keyword",
+					"size": 10
+				}
+			},
+			"Artist": {
+				"terms": {
+					"field": "artist.keyword",
+					"size": 10
+				}
+			},
+			"Lyricist": {
+				"terms": {
+					"field": "lyricist.keyword",
+					"size": 10
+				}
 			}
 		}
 	}
@@ -40,6 +80,26 @@ def multi_match_and_sort_cross(query, num, fields):
 				"operator": 'or',
 				"type": "cross_fields"
 			}
+		},
+                "aggs": {			
+			"Music": {
+				"terms": {
+					"field": "music.keyword",
+					"size": 10
+				}
+			},
+			"Artist": {
+				"terms": {
+					"field": "artist.keyword",
+					"size": 10
+				}
+			},
+			"Lyricist": {
+				"terms": {
+					"field": "lyricist.keyword",
+					"size": 10
+				}
+			}
 		}
 	}
 	return q
@@ -57,6 +117,26 @@ def multi_match_and_sort_prefix(query, num, fields):
 				"fields": fields,
 				"operator": 'or',
 				"type": "phrase_prefix"
+			}
+		},
+                "aggs": {			
+			"Music": {
+				"terms": {
+					"field": "music.keyword",
+					"size": 10
+				}
+			},
+			"Artist": {
+				"terms": {
+					"field": "artist.keyword",
+					"size": 10
+				}
+			},
+			"Lyricist": {
+				"terms": {
+					"field": "lyricist.keyword",
+					"size": 10
+				}
 			}
 		}
 	}

@@ -9,7 +9,7 @@ INDEX = 'sinhala-songs'
 syn_artist = ['ගයනවා','ගායනා','ගායනා','ගැයු','ගයන','ගායනය','ගායකයා','ගායකයා']
 syn_lyricist = ['ලියූ','ලියන්නා','ලියන','රචිත','ලියපු','ලියව්‌ව','රචනා','රචක','රචනය','රචකයා']
 syn_music = ['සංගීත']
-syn_adj = ['කල','කෙරූ','කර','ලද','කරන','සින්දු','ගීත','ගී','සැපයූ','හොඳම','ජනප්‍රිය','සුපිරිම','සුපිරි','ප්‍රචලිත','ප්‍රසිද්ධ','හොදම','ජනප්‍රියම']
+syn_adj = ['කල','කෙරූ','කර','ලද','කරන','සින්දු','ගීත','ගී','සැපයූ','හොඳම','ජනප්‍රිය','සුපිරිම','සුපිරි','ප්‍රචලිත','ප්‍රසිද්ධ','හොදම','ජනප්‍රියම','විසින්']
 
 #q = queries.multi_match_cross_fields("Sunil", ['artist_english'])
 #res = client.search(index=INDEX, body=q)
@@ -24,6 +24,8 @@ query="Sunil ගායනා කල සුපිරි සින්දු 10"
 
 def searchq(query):
     query=query.replace('ගේ', '')
+    query=query.replace('යන්ගේ', '')
+    query=query.replace('යන්', '')
     tokens_ori = query.split()
     tokens = query.split()
     print(tokens)
@@ -37,8 +39,7 @@ def searchq(query):
 
         if tokens_ori[i] in syn_artist:
             tokens.remove(tokens_ori[i])
-            fields.append('artist')
-            fields.append('artist_english')
+            fields.append('artist')            
 
         if tokens_ori[i] in syn_lyricist:
             tokens.remove(tokens_ori[i])
@@ -54,12 +55,7 @@ def searchq(query):
 
     query = ' '.join(tokens)
     q='';
-    print(query,len(fields))
-    if len(fields)==1:
-        if num==0:#2
-            q = queries.multi_match_phrase_prefix(query,fields)
-        else:#4
-            q = queries.multi_match_and_sort_prefix(query,num,fields)
+    print(query,len(fields))    
     if len(fields)>1:
         if num==0:#1
             q = queries.multi_match_cross_fields(query,fields)
@@ -70,6 +66,13 @@ def searchq(query):
             q = queries.multi_match_cross_fields(query,['title','lyrics','artist','lyricist','music','artist_english'])
         else:#3
             q = queries.multi_match_and_sort_cross(query,num,['title','lyrics','artist','lyricist','music','artist_english'])
+    if len(fields)==1 :
+        if fields[0]=='artist':
+            fields.append('artist_english')
+        if num==0:#2
+            q = queries.multi_match_phrase_prefix(query,fields)
+        else:#4
+            q = queries.multi_match_and_sort_prefix(query,num,fields)
             
     print(q)
     res = client.search(index=INDEX, body=q)

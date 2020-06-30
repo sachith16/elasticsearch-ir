@@ -15,10 +15,15 @@ def search():
     #print(entry.get())
     #T.insert(tk.END, "S")
     listbox.delete(0,'end')
+    
+    T.config(state=NORMAL)
     T.delete('1.0', END)
+    T.config(state=DISABLED)
+    
     res=searchq(entry.get())
     global hits
     hits = res['hits']['hits']
+    aggs=res['aggregations']
     for i in range(len(hits)):
         y = json.dumps(hits[i])
         z=json.loads(y)
@@ -30,8 +35,27 @@ def search():
         else:
             item=item+" "+z["_source"]["artist"]
             
-        listbox.insert(END, item)    
+        listbox.insert(END, item)
+        
+    Tface.config(state=NORMAL)
+    Tface.delete('1.0', END)    
+    yy = json.dumps(aggs)
+    zz = json.loads(yy)
+    
+    Tface.insert(tk.END, "Artists\n")
+    for f in zz["Artist"]["buckets"]:
+        Tface.insert(tk.END, f["key"]+"-"+str(f["doc_count"])+'\n')
+        
+    Tface.insert(tk.END, "\nLyricists\n")
+    for f in zz["Lyricist"]["buckets"]:
+        Tface.insert(tk.END, f["key"]+"-"+str(f["doc_count"])+'\n')
 
+    Tface.insert(tk.END, "\nMusicians\n")
+    for f in zz["Music"]["buckets"]:
+        Tface.insert(tk.END, f["key"]+"-"+str(f["doc_count"])+'\n')
+
+    Tface.config(state=DISABLED)
+    
 def OnDouble(event):
         T.config(state=NORMAL)
         widget = event.widget
@@ -60,9 +84,12 @@ searchbutton = tk.Button(
 
 searchbutton.pack()
 
-listbox = Listbox(root, width=100, height=10)
+listbox = Listbox(root, width=100, height=7)
 listbox.bind("<Double-Button-1>", OnDouble)
 listbox.pack(pady=10)
 
-T = tk.Text(root, height=20, width=70)
+Tface = tk.Text(root, height=5, width=70)
+Tface.pack()
+
+T = tk.Text(root, height=15, width=70)
 T.pack(padx=20,pady=10)
